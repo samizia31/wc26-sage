@@ -1,7 +1,7 @@
-# WC26 Sage
+# WC26 Sage 🏆
 
-Web demo for World Cup 2026 Predictions using public APIs.
+Improved demo with realistic match cards and prognostics.
 
-Live at: https://samizia31.github.io/wc26-sage/ (after Pages deploy)
+**Live**: https://samizia31.github.io/wc26-sage/
 
-See index.html for the implementation.
+Uses demo data based on real WC teams for better UX. Easily replace with full API integration.
