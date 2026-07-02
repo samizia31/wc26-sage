@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WC26 Sage - World Cup 2026 Predictor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: system-ui; }
+    </style>
+</head>
+<body class="bg-zinc-950 text-white">
+    <div class="max-w-4xl mx-auto p-4">
+        <header class="flex justify-between items-center py-6">
+            <div class="flex items-center gap-3">
+                <span class="text-4xl">⚽</span>
+                <h1 class="text-3xl font-bold">WC26 Sage</h1>
+            </div>
+            <p class="text-emerald-400">Live World Cup 2026 Predictions</p>
+        </header>
+        
+        <div id="live-matches" class="mb-8">
+            <h2 class="text-xl font-semibold mb-4">Live & Upcoming Matches</h2>
+            <div id="matches-container" class="grid gap-4"></div>
+        </div>
+
+        <div class="bg-zinc-900 rounded-xl p-6">
+            <h2 class="text-xl font-semibold mb-4">Best Prognostic (Demo)</h2>
+            <p class="text-zinc-400">Using public APIs like worldcup26.ir. Client-side demo.</p>
+            <button onclick="fetchMatches()" class="mt-4 bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-lg font-medium">Refresh Real Data</button>
+            <div id="prognostic" class="mt-6 p-4 bg-zinc-800 rounded-lg"></div>
+        </div>
+    </div>
+
+    <script>
+        async function fetchMatches() {
+            const container = document.getElementById('matches-container');
+            const prog = document.getElementById('prognostic');
+            container.innerHTML = '<p class="text-zinc-400">Fetching tournament data...</p>';
+            
+            try {
+                const res = await fetch('https://worldcup26.ir/get/games');
+                let data = await res.json();
+                container.innerHTML = '';
+                // Adapt to actual API response structure
+                const matches = Array.isArray(data) ? data : Object.values(data || {});
+                matches.slice(0, 8).forEach(m => {
+                    const card = document.createElement('div');
+                    card.className = 'bg-zinc-900 p-5 rounded-2xl';
+                    card.innerHTML = `
+                        <div class="flex justify-between items-center">
+                            <div class="font-medium">${m.home || m.home_team || 'Home'} <span class="text-emerald-400">vs</span> ${m.away || m.away_team || 'Away'}</div>
+                            <div class="text-3xl font-bold">${m.score || 'VS'}</div>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+                prog.innerHTML = 'Real data integrated! Extend for predictions.';
+            } catch(e) {
+                container.innerHTML = '<p>Demo: Brazil vs Germany - Predicted 2-1</p>';
+            }
+        }
+        window.onload = fetchMatches;
+    </script>
+</body>
+</html>
